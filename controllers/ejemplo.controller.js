@@ -20,13 +20,15 @@ export const getAllEjemplos=async(req, res)=>{
 };
 export const getEjemploById=async(req,res)=>{
   console.log('EJEMPLO POR ID')
-  const id=req.params.id; 
+  const
+   id=req.params.id; 
+  console.log('ID:',id)
   try {
-    if(mongoose.Types.ObjectId.isValid(id)){
+   /* if(mongoose.Types.ObjectId.isValid(id)){
         return res.status(400).json({
             msg:'ID no valido'
         });
-    }
+    }*/
     return res.status(200).json({
         ejemplo
     });
