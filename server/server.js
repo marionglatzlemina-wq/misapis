@@ -14,11 +14,18 @@ export default class Server {
         this.routes();
     }
 
+   
     middlewares() {
-        this.app.use(cors());
-        this.app.use(express.json());
-        this.app.use(express.static("public"));
-    }
+    this.app.use(cors());
+    this.app.use(express.json());
+
+    // Archivos estáticos de la página web
+    this.app.use(express.static("public"));
+
+    // Archivos estáticos de las imágenes
+    this.app.use('/uploads', express.static('uploads'));
+}
+
 
     routes() {
         this.app.use(this.apiPath, indexRoutes);

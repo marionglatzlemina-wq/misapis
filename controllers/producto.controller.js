@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 import Producto from '../models/producto.model.js';
 
@@ -19,7 +20,7 @@ export const getAllProductos = async (req, res) => {
     }
 };
 
-// GET: Obtener un producto por su ID
+// GET: Obtener un producto por ID
 export const getProductoById = async (req, res) => {
     try {
         const { id } = req.params;
@@ -47,10 +48,13 @@ export const getProductoById = async (req, res) => {
         });
     }
 };
-
-// POST: Registrar un nuevo producto
+// POST: Registrar un producto
 export const postProducto = async (req, res) => {
     try {
+
+        console.log('BODY RECIBIDO:', req.body);
+        console.log('IMAGEN RECIBIDA:', req.body.imagen);
+
         const producto = new Producto(req.body);
 
         await producto.save();
@@ -75,7 +79,7 @@ export const postProducto = async (req, res) => {
     }
 };
 
-// PUT: Actualizar un producto por su ID
+// PUT: Actualizar un producto
 export const putProducto = async (req, res) => {
     try {
         const { id } = req.params;
@@ -89,10 +93,7 @@ export const putProducto = async (req, res) => {
         const producto = await Producto.findByIdAndUpdate(
             id,
             req.body,
-            {
-                new: true,
-                runValidators: true
-            }
+            { new: true, runValidators: true }
         );
 
         if (!producto) {
@@ -121,7 +122,7 @@ export const putProducto = async (req, res) => {
     }
 };
 
-// DELETE: Eliminar un producto por su ID
+// DELETE: Eliminar un producto
 export const deleteProducto = async (req, res) => {
     try {
         const { id } = req.params;

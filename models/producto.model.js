@@ -1,3 +1,4 @@
+
 import mongoose from 'mongoose';
 
 const productoSchema = new mongoose.Schema({
@@ -40,6 +41,11 @@ const productoSchema = new mongoose.Schema({
         type: String,
         trim: true,
         maxlength: 200
+    },
+
+    imagen: {
+        type: String,
+        default: null
     },
 
     stockMinimo: {

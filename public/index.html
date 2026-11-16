@@ -39,24 +39,68 @@
         .controles {
             display: flex;
             gap: 12px;
-            margin-bottom: 25px;
+            margin: 20px 0;
             flex-wrap: wrap;
         }
 
-        input, select {
+        input, select, textarea {
+            width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 6px;
             font-size: 15px;
+            font-family: Arial, sans-serif;
         }
 
-        input {
+        .controles input {
             flex: 1;
             min-width: 200px;
         }
 
-        select {
+        .controles select {
+            width: auto;
             min-width: 180px;
+        }
+
+        button {
+            padding: 11px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        button:hover {
+            opacity: 0.88;
+        }
+
+        .btn-agregar {
+            background: #8e44ad;
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .btn-guardar {
+            background: #27ae60;
+            color: white;
+        }
+
+        .btn-cancelar {
+            background: #7f8c8d;
+            color: white;
+        }
+
+        .btn-editar {
+            background: #2980b9;
+            color: white;
+            flex: 1;
+        }
+
+        .btn-eliminar {
+            background: #e74c3c;
+            color: white;
+            flex: 1;
         }
 
         .productos {
@@ -111,18 +155,65 @@
             font-size: 20px;
             font-weight: bold;
             color: #27ae60;
+            margin-bottom: 8px;
         }
 
-        .calificacion {
-            margin-top: 8px;
-            color: #d69b00;
-            font-size: 14px;
+        .acciones {
+            display: flex;
+            gap: 8px;
+            margin-top: 15px;
         }
 
         #mensaje {
             text-align: center;
-            margin: 25px 0;
+            margin: 20px 0;
             color: #666;
+        }
+
+        .formulario {
+            display: none;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .formulario h2 {
+            margin-bottom: 20px;
+            color: #8e44ad;
+        }
+
+        .campos {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .campo {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .campo label {
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .campo-completo {
+            grid-column: 1 / -1;
+        }
+
+        .campo textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .botones-formulario {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
         }
 
         footer {
@@ -131,6 +222,20 @@
             margin-top: 40px;
             background: #333;
             color: white;
+        }
+
+        @media (max-width: 600px) {
+            .campos {
+                grid-template-columns: 1fr;
+            }
+
+            .campo-completo {
+                grid-column: auto;
+            }
+
+            .botones-formulario {
+                flex-wrap: wrap;
+            }
         }
     </style>
 </head>
@@ -146,8 +251,6 @@
 
         <h2>Catálogo de productos</h2>
 
-        <br>
-
         <section class="controles">
 
             <input
@@ -162,6 +265,90 @@
 
         </section>
 
+        <button class="btn-agregar" id="btn-nuevo">
+            + Agregar producto
+        </button>
+
+        <!-- FORMULARIO DE REGISTRO Y EDICIÓN -->
+
+        <section class="formulario" id="formulario">
+
+            <h2 id="titulo-formulario">Registrar producto</h2>
+
+            <form id="form-producto">
+
+                <div class="campos">
+
+                    <div class="campo">
+                        <label for="nombre">Nombre del producto</label>
+                        <input type="text" id="nombre" required minlength="2">
+                    </div>
+
+                    <div class="campo">
+                        <label for="categoria-producto">Categoría</label>
+                        <input type="text" id="categoria-producto" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="precioVenta">Precio de venta</label>
+                        <input type="number" id="precioVenta" min="0" step="0.01" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="stock">Stock</label>
+                        <input type="number" id="stock" min="0" step="1" required>
+                    </div>
+
+                    <div class="campo">
+                        <label for="marca">Marca</label>
+                        <input type="text" id="marca" placeholder="Marca del producto">
+                    </div>
+
+                    <div class="campo">
+                        <label for="stockMinimo">Stock mínimo</label>
+                        <input type="number" id="stockMinimo" min="0" step="1" value="5">
+                    </div>
+
+                    <div class="campo campo-completo">
+                        <label for="descripcion">Descripción</label>
+                        <textarea id="descripcion" maxlength="200"></textarea>
+                    </div>
+
+                    <div class="campo campo-completo">
+                        <label for="imagen">URL de la imagen</label>
+                        <input
+                            type="url"
+                            id="imagen"
+                            placeholder="Pega aquí la URL de la imagen"
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label for="activo">Estado</label>
+                        <select id="activo">
+                            <option value="true">Activo</option>
+                            <option value="false">Inactivo</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="botones-formulario">
+
+                    <button type="submit" class="btn-guardar" id="btn-guardar">
+                        Guardar producto
+                    </button>
+
+                    <button type="button" class="btn-cancelar" id="btn-cancelar">
+                        Cancelar
+                    </button>
+
+                </div>
+
+            </form>
+
+        </section>
+
         <p id="mensaje">Cargando productos...</p>
 
         <section class="productos" id="lista-productos">
@@ -171,21 +358,25 @@
 
     <footer>
         <p>Novedades Mary - Catálogo de productos</p>
-        <p>Consumo de API REST con Node.js, Express y DummyJSON</p>
+        <p>Consumo de API REST propia con Node.js, Express y MongoDB</p>
     </footer>
 
     <script>
 
-        const API_URL = '/api/productos-externos';
+        const API_URL = '/api/productos';
 
         const listaProductos = document.getElementById('lista-productos');
         const mensaje = document.getElementById('mensaje');
         const buscador = document.getElementById('buscador');
         const categoria = document.getElementById('categoria');
+        const formulario = document.getElementById('formulario');
+        const formProducto = document.getElementById('form-producto');
 
         let todosLosProductos = [];
+        let idProductoEditar = null;
 
-        // Obtener productos desde nuestra API
+        // GET: Obtener todos los productos
+
         async function cargarProductos() {
 
             try {
@@ -200,65 +391,98 @@
 
                 const datos = await respuesta.json();
 
-                todosLosProductos = datos.productos;
+                todosLosProductos = datos.productos || [];
 
-                mostrarProductos(todosLosProductos);
                 cargarCategorias(todosLosProductos);
+                filtrarProductos();
 
                 mensaje.textContent = `Se encontraron ${datos.total} productos`;
 
             } catch (error) {
 
-                mensaje.textContent = 'Error al cargar los productos: ' + error.message;
+                mensaje.textContent = 'Error al cargar productos: ' + error.message;
 
             }
 
         }
 
         // Mostrar productos en pantalla
+
         function mostrarProductos(productos) {
 
             listaProductos.innerHTML = '';
 
             if (productos.length === 0) {
-                mensaje.textContent = 'No se encontraron productos.';
+                listaProductos.innerHTML = '<p>No se encontraron productos.</p>';
                 return;
             }
 
             productos.forEach(producto => {
 
                 const tarjeta = document.createElement('article');
-
                 tarjeta.classList.add('producto');
 
-                tarjeta.innerHTML = `
-                    <img
-                        src="${producto.thumbnail}"
-                        alt="${producto.title}"
-                    >
+                const imagen = document.createElement('img');
+                imagen.src = producto.imagen || '';
+                imagen.alt = producto.nombre;
+                imagen.onerror = function () {
+                    this.style.display = 'none';
+                };
 
-                    <div class="informacion">
+                const informacion = document.createElement('div');
+                informacion.classList.add('informacion');
 
-                        <h3>${producto.title}</h3>
+                const nombre = document.createElement('h3');
+                nombre.textContent = producto.nombre;
 
-                        <p class="descripcion">
-                            ${producto.description}
-                        </p>
+                const descripcion = document.createElement('p');
+                descripcion.classList.add('descripcion');
+                descripcion.textContent = producto.descripcion || 'Sin descripción';
 
-                        <p class="categoria">
-                            Categoría: ${producto.category}
-                        </p>
+                const categoriaTexto = document.createElement('p');
+                categoriaTexto.classList.add('categoria');
+                categoriaTexto.textContent = 'Categoría: ' + producto.categoria;
 
-                        <p class="precio">
-                            $${producto.price}
-                        </p>
+                const precio = document.createElement('p');
+                precio.classList.add('precio');
+                precio.textContent = '$' + Number(producto.precioVenta).toFixed(2);
 
-                        <p class="calificacion">
-                            ★ ${producto.rating}
-                        </p>
+                const stock = document.createElement('p');
+                stock.textContent = 'Stock: ' + producto.stock;
 
-                    </div>
-                `;
+                const marca = document.createElement('p');
+                marca.textContent = 'Marca: ' + (producto.marca || 'Sin marca');
+
+                const estado = document.createElement('p');
+                estado.textContent = producto.activo ? 'Activo' : 'Inactivo';
+
+                const acciones = document.createElement('div');
+                acciones.classList.add('acciones');
+
+                const btnEditar = document.createElement('button');
+                btnEditar.classList.add('btn-editar');
+                btnEditar.textContent = 'Editar';
+                btnEditar.addEventListener('click', () => editarProducto(producto));
+
+                const btnEliminar = document.createElement('button');
+                btnEliminar.classList.add('btn-eliminar');
+                btnEliminar.textContent = 'Eliminar';
+                btnEliminar.addEventListener('click', () => eliminarProducto(producto._id));
+
+                acciones.appendChild(btnEditar);
+                acciones.appendChild(btnEliminar);
+
+                informacion.appendChild(nombre);
+                informacion.appendChild(descripcion);
+                informacion.appendChild(categoriaTexto);
+                informacion.appendChild(precio);
+                informacion.appendChild(stock);
+                informacion.appendChild(marca);
+                informacion.appendChild(estado);
+                informacion.appendChild(acciones);
+
+                tarjeta.appendChild(imagen);
+                tarjeta.appendChild(informacion);
 
                 listaProductos.appendChild(tarjeta);
 
@@ -266,11 +490,16 @@
 
         }
 
-        // Cargar categorías disponibles
+        // Cargar categorías
+
         function cargarCategorias(productos) {
 
+            const categoriaActual = categoria.value;
+
+            categoria.innerHTML = '<option value="">Todas las categorías</option>';
+
             const categorias = [
-                ...new Set(productos.map(producto => producto.category))
+                ...new Set(productos.map(producto => producto.categoria))
             ];
 
             categorias.forEach(nombreCategoria => {
@@ -284,9 +513,14 @@
 
             });
 
+            categoria.value = categorias.includes(categoriaActual)
+                ? categoriaActual
+                : '';
+
         }
 
         // Buscar y filtrar productos
+
         function filtrarProductos() {
 
             const texto = buscador.value.toLowerCase();
@@ -295,11 +529,11 @@
             const productosFiltrados = todosLosProductos.filter(producto => {
 
                 const coincideNombre =
-                    producto.title.toLowerCase().includes(texto);
+                    producto.nombre.toLowerCase().includes(texto);
 
                 const coincideCategoria =
                     !categoriaSeleccionada ||
-                    producto.category === categoriaSeleccionada;
+                    producto.categoria === categoriaSeleccionada;
 
                 return coincideNombre && coincideCategoria;
 
@@ -310,10 +544,168 @@
         }
 
         buscador.addEventListener('input', filtrarProductos);
-
         categoria.addEventListener('change', filtrarProductos);
 
-        // Ejecutar al abrir la página
+        // Mostrar formulario para nuevo producto
+
+        document.getElementById('btn-nuevo').addEventListener('click', () => {
+
+            idProductoEditar = null;
+
+            formProducto.reset();
+
+            document.getElementById('titulo-formulario').textContent = 'Registrar producto';
+            document.getElementById('btn-guardar').textContent = 'Guardar producto';
+            document.getElementById('stockMinimo').value = 5;
+            document.getElementById('activo').value = 'true';
+
+            formulario.style.display = 'block';
+            formulario.scrollIntoView({ behavior: 'smooth' });
+
+        });
+
+        // Cancelar formulario
+
+        document.getElementById('btn-cancelar').addEventListener('click', () => {
+
+            formulario.style.display = 'none';
+            formProducto.reset();
+            idProductoEditar = null;
+
+        });
+
+        // POST y PUT: Registrar o actualizar producto
+
+        formProducto.addEventListener('submit', async (event) => {
+
+            event.preventDefault();
+
+            const producto = {
+
+                nombre: document.getElementById('nombre').value.trim(),
+                categoria: document.getElementById('categoria-producto').value.trim(),
+                precioVenta: Number(document.getElementById('precioVenta').value),
+                stock: Number(document.getElementById('stock').value),
+                marca: document.getElementById('marca').value.trim() || 'Sin marca',
+                descripcion: document.getElementById('descripcion').value.trim(),
+                stockMinimo: Number(document.getElementById('stockMinimo').value),
+                activo: document.getElementById('activo').value === 'true',
+                imagen: document.getElementById('imagen').value.trim() || null
+
+            };
+
+            try {
+
+                let respuesta;
+
+                if (idProductoEditar) {
+
+                    // PUT: Actualizar producto
+
+                    respuesta = await fetch(`${API_URL}/${idProductoEditar}`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(producto)
+                    });
+
+                } else {
+
+                    // POST: Registrar producto
+
+                    respuesta = await fetch(API_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(producto)
+                    });
+
+                }
+
+                const resultado = await respuesta.json();
+
+                if (!respuesta.ok) {
+                    throw new Error(resultado.error || resultado.mensaje || 'Error al guardar el producto');
+                }
+
+                alert(resultado.mensaje || 'Operación realizada correctamente');
+
+                formulario.style.display = 'none';
+                formProducto.reset();
+                idProductoEditar = null;
+
+                await cargarProductos();
+
+            } catch (error) {
+
+                alert('Error: ' + error.message);
+
+            }
+
+        });
+
+        // Preparar formulario para editar
+
+        function editarProducto(producto) {
+
+            idProductoEditar = producto._id;
+
+            document.getElementById('titulo-formulario').textContent = 'Editar producto';
+            document.getElementById('btn-guardar').textContent = 'Actualizar producto';
+
+            document.getElementById('nombre').value = producto.nombre;
+            document.getElementById('categoria-producto').value = producto.categoria;
+            document.getElementById('precioVenta').value = producto.precioVenta;
+            document.getElementById('stock').value = producto.stock;
+            document.getElementById('marca').value = producto.marca || '';
+            document.getElementById('descripcion').value = producto.descripcion || '';
+            document.getElementById('stockMinimo').value = producto.stockMinimo ?? 5;
+            document.getElementById('activo').value = String(producto.activo);
+            document.getElementById('imagen').value = producto.imagen || '';
+
+            formulario.style.display = 'block';
+            formulario.scrollIntoView({ behavior: 'smooth' });
+
+        }
+
+        // DELETE: Eliminar producto
+
+        async function eliminarProducto(id) {
+
+            const confirmar = confirm('¿Estás seguro de que deseas eliminar este producto?');
+
+            if (!confirmar) {
+                return;
+            }
+
+            try {
+
+                const respuesta = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE'
+                });
+
+                const resultado = await respuesta.json();
+
+                if (!respuesta.ok) {
+                    throw new Error(resultado.error || resultado.mensaje || 'No se pudo eliminar el producto');
+                }
+
+                alert(resultado.mensaje || 'Producto eliminado correctamente');
+
+                await cargarProductos();
+
+            } catch (error) {
+
+                alert('Error: ' + error.message);
+
+            }
+
+        }
+
+        // Cargar catálogo al abrir la página
+
         cargarProductos();
 
     </script>
